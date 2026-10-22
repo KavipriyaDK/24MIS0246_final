@@ -13,25 +13,66 @@
   .Low { color: green; font-weight: bold; }
   .Moderate { color: orange; font-weight: bold; }
   .High { color: red; font-weight: bold; }
+  select { padding: 6px; margin-bottom: 10px; }
 </style>
 </head>
 <body>
 <h1>Public Transport Monitoring Dashboard</h1>
 <p>Simulated transport data</p>
 
+<label><b>Filter by route number:</b>
+  <select id="routeFilter" onchange="render()">
+    <option value="ALL">All routes</option>
+  </select>
+</label>
+
 <h2>Bus Routes</h2>
 <table>
-<tr><th>Route</th><th>Source</th><th>Destination</th><th>ETA</th><th>Crowd Level</th><th>Service Status</th></tr>
-<tr><td>21A</td><td>Central Station</td><td>Airport</td><td>5 min</td><td class="Low">Low</td><td>On Time</td></tr>
-<tr><td>45B</td><td>City Mall</td><td>University</td><td>12 min</td><td class="Moderate">Moderate</td><td>Delayed</td></tr>
-<tr><td>12</td><td>Harbor</td><td>Tech Park</td><td>3 min</td><td class="High">High</td><td>On Time</td></tr>
-<tr><td>7C</td><td>Bus Depot</td><td>Stadium</td><td>20 min</td><td class="Low">Low</td><td>Service Suspended</td></tr>
+  <thead>
+    <tr><th>Route</th><th>Source</th><th>Destination</th><th>ETA</th><th>Crowd Level</th><th>Service Status</th></tr>
+  </thead>
+  <tbody id="busBody"></tbody>
 </table>
 
-<h2>Service Disruption</h2>
-<div class="box">Route 45B is delayed by about 15 minutes due to heavy traffic.</div>
+<h2>Service Disruption Alerts</h2>
+<div id="disruptions"></div>
 
 <h2>Passenger Advisory</h2>
 <div class="box">Please keep your tickets ready and avoid peak hours (8-10 AM) on Route 12.</div>
+
+<script>
+const buses = [
+  {route:"21A", source:"Central Station", destination:"Airport",    eta:"5 min",  crowd:"Low",      status:"On Time"},
+  {route:"45B", source:"City Mall",       destination:"University", eta:"12 min", crowd:"Moderate", status:"Delayed"},
+  {route:"12",  source:"Harbor",          destination:"Tech Park",  eta:"3 min",  crowd:"High",     status:"Diverted"},
+  {route:"7C",  source:"Bus Depot",       destination:"Stadium",    eta:"20 min", crowd:"Low",      status:"Stop Closed"}
+];
+const disruptions = [
+  {route:"45B", type:"Delay",                  msg:"Delayed by about 15 minutes due to heavy traffic."},
+  {route:"12",  type:"Route Diversion",        msg:"Diverted via Ring Road because of road work on Main Street."},
+  {route:"7C",  type:"Temporary Stop Closure", msg:"Stadium Gate stop is closed. Use the next stop."}
+];
+
+const select = document.getElementById("routeFilter");
+buses.forEach(b => {
+  const o = document.createElement("option");
+  o.value = b.route; o.textContent = b.route;
+  select.appendChild(o);
+});
+
+function render() {
+  const f = select.value;
+  const list = f === "ALL" ? buses : buses.filter(b => b.route === f);
+  document.getElementById("busBody").innerHTML = list.map(b =>
+    `<tr><td>${b.route}</td><td>${b.source}</td><td>${b.destination}</td><td>${b.eta}</td>
+     <td class="${b.crowd}">${b.crowd}</td><td>${b.status}</td></tr>`).join("");
+
+  const d = f === "ALL" ? disruptions : disruptions.filter(x => x.route === f);
+  document.getElementById("disruptions").innerHTML = d.length
+    ? d.map(x => `<div class="box"><b>Route ${x.route} - ${x.type}:</b> ${x.msg}</div>`).join("")
+    : '<div class="box">No disruptions for this route.</div>';
+}
+render();
+</script>
 </body>
 </html>
