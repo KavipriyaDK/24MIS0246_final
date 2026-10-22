@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Public Transport Monitoring Dashboard</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; background: #f4f6f8; }
+  h1 { color: #0b3d91; }
+  table { border-collapse: collapse; width: 100%; background: #fff; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  th { background: #0b3d91; color: #fff; }
+  .box { background: #fff; border-left: 5px solid #e67e00; padding: 10px; margin: 10px 0; }
+  .Low { color: green; font-weight: bold; }
+  .Moderate { color: orange; font-weight: bold; }
+  .High { color: red; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>Public Transport Monitoring Dashboard</h1>
+<p>Simulated transport data</p>
+
+<h2>Bus Routes</h2>
+<table>
+<tr><th>Route</th><th>Source</th><th>Destination</th><th>ETA</th><th>Crowd Level</th><th>Service Status</th></tr>
+<tr><td>21A</td><td>Central Station</td><td>Airport</td><td>5 min</td><td class="Low">Low</td><td>On Time</td></tr>
+<tr><td>45B</td><td>City Mall</td><td>University</td><td>12 min</td><td class="Moderate">Moderate</td><td>Delayed</td></tr>
+<tr><td>12</td><td>Harbor</td><td>Tech Park</td><td>3 min</td><td class="High">High</td><td>On Time</td></tr>
+<tr><td>7C</td><td>Bus Depot</td><td>Stadium</td><td>20 min</td><td class="Low">Low</td><td>Service Suspended</td></tr>
+</table>
+
+<h2>Service Disruption</h2>
+<div class="box">Route 45B is delayed by about 15 minutes due to heavy traffic.</div>
+
+<h2>Passenger Advisory</h2>
+<div class="box">Please keep your tickets ready and avoid peak hours (8-10 AM) on Route 12.</div>
+</body>
+</html>
